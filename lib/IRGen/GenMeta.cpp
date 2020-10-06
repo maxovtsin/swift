@@ -1404,7 +1404,8 @@ namespace {
     void maybeAddResilientSuperclass() { }
 
     void addReflectionFieldDescriptor() {
-      if (!IGM.IRGen.Opts.EnableReflectionMetadata) {
+      if (IGM.IRGen.Opts.ReflectionLevel == ReflectionMetadataLevel::Disabled ||
+          (IGM.IRGen.Opts.ReflectionLevel == ReflectionMetadataLevel::OptIn && !getType()->isReflectable())) {
         B.addInt32(0);
         return;
       }
@@ -1478,7 +1479,8 @@ namespace {
     void maybeAddResilientSuperclass() { }
 
     void addReflectionFieldDescriptor() {
-      if (!IGM.IRGen.Opts.EnableReflectionMetadata) {
+      if (IGM.IRGen.Opts.ReflectionLevel == ReflectionMetadataLevel::Disabled ||
+          (IGM.IRGen.Opts.ReflectionLevel == ReflectionMetadataLevel::OptIn && !getType()->isReflectable())) {
         B.addInt32(0);
         return;
       }
@@ -1614,7 +1616,8 @@ namespace {
     void addReflectionFieldDescriptor() {
       // Classes are always reflectable, unless reflection is disabled or this
       // is a foreign class.
-      if (!IGM.IRGen.Opts.EnableReflectionMetadata ||
+      if ((IGM.IRGen.Opts.ReflectionLevel == ReflectionMetadataLevel::Disabled ||
+           (IGM.IRGen.Opts.ReflectionLevel == ReflectionMetadataLevel::OptIn && !getType()->isReflectable())) ||
           getType()->isForeign()) {
         B.addInt32(0);
         return;

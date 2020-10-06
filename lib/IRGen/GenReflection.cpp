@@ -1257,7 +1257,7 @@ llvm::Constant *IRGenModule::getAddrOfFieldName(StringRef Name) {
 llvm::Constant *
 IRGenModule::getAddrOfBoxDescriptor(SILType BoxedType,
                                     CanGenericSignature genericSig) {
-  if (!IRGen.Opts.EnableReflectionMetadata)
+  if (IRGen.Opts.ReflectionLevel != ReflectionMetadataLevel::Full)
     return llvm::Constant::getNullValue(CaptureDescriptorPtrTy);
 
   BoxDescriptorBuilder builder(*this, BoxedType, genericSig);
@@ -1272,7 +1272,7 @@ IRGenModule::getAddrOfCaptureDescriptor(SILFunction &Caller,
                                         CanSILFunctionType SubstCalleeType,
                                         SubstitutionMap Subs,
                                         const HeapLayout &Layout) {
-  if (!IRGen.Opts.EnableReflectionMetadata)
+  if (IRGen.Opts.ReflectionLevel != ReflectionMetadataLevel::Full)
     return llvm::Constant::getNullValue(CaptureDescriptorPtrTy);
 
   if (CaptureDescriptorBuilder::hasOpenedExistential(OrigCalleeType, Layout))
@@ -1290,8 +1290,12 @@ emitAssociatedTypeMetadataRecord(const RootProtocolConformance *conformance) {
   auto normalConf = dyn_cast<NormalProtocolConformance>(conformance);
   if (!normalConf)
     return;
-
-  if (!IRGen.Opts.EnableReflectionMetadata)
+  
+  auto NTD = conformance->getType()->getAnyNominal();
+  auto Protocol = conformance->getProtocol();
+  
+  if (IRGen.Opts.ReflectionLevel == ReflectionMetadataLevel::Disabled ||
+      (IRGen.Opts.ReflectionLevel == ReflectionMetadataLevel::OptIn && !(NTD->isReflectable() || Protocol->isReflectable())))
     return;
 
   SmallVector<std::pair<StringRef, CanType>, 2> AssociatedTypes;
@@ -1350,7 +1354,8 @@ void IRGenerator::emitBuiltinReflectionMetadata() {
 }
 
 void IRGenModule::emitFieldDescriptor(const NominalTypeDecl *D) {
-  if (!IRGen.Opts.EnableReflectionMetadata)
+  if (IRGen.Opts.ReflectionLevel == ReflectionMetadataLevel::Disabled ||
+      (IRGen.Opts.ReflectionLevel == ReflectionMetadataLevel::OptIn && !D->isReflectable()))
     return;
 
   auto T = D->getDeclaredTypeInContext()->getCanonicalType();
