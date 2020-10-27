@@ -361,10 +361,6 @@ namespace swift {
     bool AllowDeserializingImplementationOnly = false;
     
     /// Allows to diagnose @reflectable declarations
-    /// when full reflection metadata is enabled.
-    bool FullReflectionMetadataIsEnabled = false;
-    
-    /// Allows to diagnose @reflectable declarations
     /// when reflection metadata is disabled.
     bool ReflectionMetadataIsDisabled = false;
 

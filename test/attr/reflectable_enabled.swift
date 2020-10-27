@@ -1,4 +1,5 @@
 // RUN: %target-swift-frontend -typecheck -enable-opt-in-reflection-metadata %s -verify
+// RUN: %target-swift-frontend -typecheck %s -verify
 
 // MARK: - Correct usage of @reflectable attribute
 
@@ -7,6 +8,7 @@ protocol P {}
 
 @reflectable
 struct S {
+  
   @reflectable
   struct S2 {}
   

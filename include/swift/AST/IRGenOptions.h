@@ -77,14 +77,13 @@ enum class IRGenEmbedMode : unsigned {
   EmbedBitcode
 };
 
-/// Describes level of reflection metadata to be
-/// emitted.
+/// Describes level of emitted reflection metadata.
 enum class ReflectionMetadataLevel : unsigned {
   /// Reflection metadata is disabled.
   Disabled,
   /// The compiler emits full reflection metadata.
   Full,
-  /// The compiler selectively emits reflection metadata,
+  /// The compiler emits no-dead-strip reflection metadata
   /// for nominal type declarations marked `@reflectable`.
   OptIn,
 };

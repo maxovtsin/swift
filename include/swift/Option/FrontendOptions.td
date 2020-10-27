@@ -349,7 +349,7 @@ def disable_reflection_names : Flag<["-"], "disable-reflection-names">,
            "reflection metadata">;
 
 def enable_opt_in_reflection_metadata : Flag<["-"], "enable-opt-in-reflection-metadata">,
-  HelpText<"Enable emission of reflection metadata for nominal types with @reflectable attribute">;
+  HelpText<"Enable emission of no dead-strippable reflection metadata for nominal types with @reflectable attribute">;
 
 def function_sections: Flag<["-"], "function-sections">,
   Flags<[FrontendOption, NoInteractiveOption]>,

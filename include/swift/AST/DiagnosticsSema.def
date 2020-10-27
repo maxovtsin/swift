@@ -5447,15 +5447,11 @@ NOTE(result_builder_missing_build_limited_availability, none,
 //------------------------------------------------------------------------------
 // MARK: Reflectable Diagnostics
 //------------------------------------------------------------------------------
-
-  WARNING(reflection_metadata_emitted_in_full,none,
-         "the compiler emits reflection metadata in full, "
-         "`@reflectable` is ignored",
-         ())
          
-  WARNING(reflection_metadata_is_disabled,none,
-         "`@reflectable` is ignored because reflection metadata is disabled",
-         ())
+  ERROR(reflection_metadata_is_disabled,none,
+       "reflection metadata emission must be enabled for modules "
+       "with `@reflectable` declarations",
+       ())
 
 //------------------------------------------------------------------------------
 // MARK: differentiable programming diagnostics

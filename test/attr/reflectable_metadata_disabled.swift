@@ -2,11 +2,11 @@
 
 // MARK: - Errors
 
-@reflectable // expected-warning {{`@reflectable` is ignored because reflection metadata is disabled}}
+@reflectable // expected-error {{reflection metadata emission must be enabled for modules with `@reflectable` declarations}}
 protocol P {}
 
-@reflectable // expected-warning {{`@reflectable` is ignored because reflection metadata is disabled}}
+@reflectable // expected-error {{reflection metadata emission must be enabled for modules with `@reflectable` declarations}}
 enum E {}
 
-@reflectable // expected-warning {{`@reflectable` is ignored because reflection metadata is disabled}}
+@reflectable // expected-error {{reflection metadata emission must be enabled for modules with `@reflectable` declarations}}
 class C {}

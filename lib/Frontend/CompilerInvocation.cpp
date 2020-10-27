@@ -169,13 +169,11 @@ setLangOptsFromIRGenOptions(LangOptions &LangOpts,
   switch (IRGenOpts.ReflectionLevel) {
     case ReflectionMetadataLevel::Disabled:
       LangOpts.ReflectionMetadataIsDisabled = true;
-      LangOpts.FullReflectionMetadataIsEnabled = false;
       break;
     case ReflectionMetadataLevel::Full:
+    case ReflectionMetadataLevel::OptIn:
       LangOpts.ReflectionMetadataIsDisabled = false;
-      LangOpts.FullReflectionMetadataIsEnabled = true;
       break;
-    default: break;
   }
 }
 
